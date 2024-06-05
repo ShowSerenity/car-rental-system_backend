@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package rent;
+
+option go_package = "rent-service.v1";
+
+import "google/protobuf/timestamp.proto";
+
+message Rental {
+  int32 id = 1;
+  int32 user_id = 2;
+  int32 car_id = 3;
+  google.protobuf.Timestamp start_date = 4;
+  google.protobuf.Timestamp end_date = 5;
+}
+
+service RentService {
+  rpc RentCar(RentRequest) returns (RentResponse);
+  rpc GetRentalHistory(RentalHistoryRequest) returns (RentalHistoryResponse);
+}
+
+message RentRequest {
+  int32 user_id = 1;
+  int32 car_id = 2;
+  google.protobuf.Timestamp start_date = 3;
+  google.protobuf.Timestamp end_date = 4;
+}
+
+message RentResponse {
+  Rental rental = 1;
+}
+
+message RentalHistoryRequest {
+  int32 user_id = 1;
+  string sort_by = 2;
+  int32 page = 3;
+  int32 limit = 4;
+}
+
+message RentalHistoryResponse {
+  repeated Rental rentals = 1;
+}

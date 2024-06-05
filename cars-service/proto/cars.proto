@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package cars;
+
+option go_package = "cars-service.v1";
+
+import "google/protobuf/empty.proto";
+
+message Car {
+  int32 id = 1;
+  string make = 2;
+  string model = 3;
+  int32 year = 4;
+  string color = 5;
+  int32 mileage = 6;
+  float price = 7;
+}
+
+service CarService {
+  rpc GetCars (GetCarsRequest) returns (GetCarsResponse);
+  rpc GetCar (GetCarRequest) returns (Car);
+  rpc AddCar (Car) returns (Car);
+  rpc UpdateCar (UpdateCarRequest) returns (Car);
+  rpc DeleteCar (DeleteCarRequest) returns (google.protobuf.Empty);
+}
+
+message GetCarsRequest {
+  string filter = 1;
+  string sort_by = 2;
+  int32 page = 3;
+  int32 limit = 4;
+}
+
+message GetCarsResponse {
+  repeated Car cars = 1;
+}
+
+message GetCarRequest {
+  int32 id = 1;
+}
+
+message UpdateCarRequest {
+  int32 id = 1;
+  Car car = 2;
+}
+
+message DeleteCarRequest {
+  int32 id = 1;
+}
